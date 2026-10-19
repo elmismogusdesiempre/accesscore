@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ff4b08">
+<meta name="description" content="Access Core diseña soluciones de software y hardware para gestionar accesos, personas, vehículos, espacios y atención.">
+<title>Access Core | Control de acceso inteligente</title>
+<style>
+:root{
+  --orange:#ff4b08; --orange-dark:#e83d00; --ink:#17191c; --muted:#626970;
+  --line:#e7e9eb; --soft:#f5f6f7; --white:#fff; --green:#177a53;
+  --max:1180px; --shadow:0 24px 70px rgba(18,24,31,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--white);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;line-height:1.55}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #ffb59b;outline-offset:3px}
+.container{width:min(var(--max),calc(100% - 44px));margin-inline:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--orange-dark);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.eyebrow:before{content:"";width:24px;height:2px;background:currentColor}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(2.8rem,6.2vw,5.6rem);line-height:.98;letter-spacing:-.065em;margin:20px 0 24px;max-width:760px}
+h2{font-size:clamp(2rem,4vw,3.35rem);line-height:1.04;letter-spacing:-.05em;margin:14px 0 18px}
+h3{font-size:1.18rem;line-height:1.25;letter-spacing:-.025em;margin-bottom:10px}
+.lead{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--muted);max-width:640px;line-height:1.7}
+.section{padding:104px 0}
+.section-head{max-width:700px;margin-bottom:42px}
+.section-head p{color:var(--muted);font-size:1.05rem;max-width:650px}
+.topbar{height:6px;background:var(--orange)}
+header{height:86px;display:flex;align-items:center;border-bottom:1px solid rgba(23,25,28,.08);background:rgba(255,255,255,.96);position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;gap:28px}
+.brand{display:inline-flex;align-items:center;gap:11px;flex-shrink:0}
+.brand svg{width:43px;height:48px;display:block}
+.brand-word{display:flex;flex-direction:column;line-height:.82;font-size:1.28rem;font-weight:950;letter-spacing:-.055em}
+.brand-word span:last-child{margin-top:5px}
+.brand-word b{font-weight:950}
+.brand-word .core{color:var(--orange)}
+nav{display:flex;align-items:center;gap:28px}
+nav a{font-size:.88rem;font-weight:650;color:#3d4248;transition:color .2s}
+nav a:hover{color:var(--orange-dark)}
+.nav-cta,.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--orange);background:var(--orange);color:#fff;padding:13px 19px;font-size:.91rem;font-weight:800;cursor:pointer;transition:transform .2s,background .2s,border-color .2s}
+.nav-cta:hover,.btn:hover{background:var(--orange-dark);border-color:var(--orange-dark);transform:translateY(-2px)}
+.btn.secondary{background:transparent;color:var(--ink);border-color:#cfd3d6}
+.btn.secondary:hover{border-color:var(--orange);color:var(--orange-dark);background:#fff8f5}
+.menu-btn{display:none;border:1px solid var(--line);background:#fff;padding:9px 12px;font-weight:800}
+.hero{padding:82px 0 84px;overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;z-index:-1;right:-190px;top:-240px;width:670px;height:670px;border:1px solid #ffe0d4;border-radius:50%;box-shadow:0 0 0 70px #fff8f5,0 0 0 140px #fffaf8}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:55px}
+.hero-copy{position:relative;z-index:1}
+.hero h1 .orange{color:var(--orange)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.trust-line{display:flex;align-items:center;gap:12px;color:#555d63;font-size:.83rem;margin-top:28px}
+.trust-line .dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 0 4px #e7f5ee}
+.hero-visual{min-height:450px;position:relative;display:flex;align-items:center;justify-content:center}
+.visual-orbit{position:absolute;width:380px;height:380px;border:1px solid #ffd6c7;border-radius:50%}
+.visual-orbit:before,.visual-orbit:after{content:"";position:absolute;border:1px solid #ffe9e0;border-radius:50%;inset:35px}
+.visual-orbit:after{inset:75px}
+.access-panel{position:relative;width:min(100%,420px);background:#fff;border:1px solid #e5e7e9;box-shadow:var(--shadow);padding:24px;z-index:2}
+.panel-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:19px;border-bottom:1px solid var(--line)}
+.panel-label{font-size:.73rem;color:var(--muted);font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.live{font-size:.72rem;color:var(--green);font-weight:800;display:flex;align-items:center;gap:7px}
+.live:before{content:"";width:7px;height:7px;border-radius:50%;background:#1b9c68}
+.panel-title{font-size:1.35rem;font-weight:850;letter-spacing:-.04em;margin:19px 0 5px}
+.panel-sub{font-size:.83rem;color:var(--muted);margin-bottom:21px}
+.access-row{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #f0f1f2}
+.access-row:last-child{border:0;padding-bottom:0}
+.row-icon{height:42px;width:42px;background:#fff1eb;color:var(--orange-dark);display:grid;place-items:center}
+.row-icon svg{width:22px;height:22px}
+.row-main{font-size:.87rem;font-weight:800}
+.row-sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+.status{font-size:.68rem;font-weight:850;padding:5px 7px;background:#e8f7ef;color:#177a53}
+.status.orange{background:#fff0e9;color:#b73708}
+.float-tag{position:absolute;z-index:3;background:#fff;border:1px solid var(--line);padding:13px 15px;box-shadow:0 12px 30px #17191c12;font-size:.78rem;font-weight:800}
+.float-tag small{display:block;font-size:.68rem;color:var(--muted);font-weight:550;margin-top:3px}
+.tag-one{left:-7px;top:64px}.tag-two{right:-8px;bottom:49px}
+.sector-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0}
+.sector-strip-inner{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
+.sector-strip span{font-size:.77rem;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.07em}
+.sector-strip strong{font-size:.88rem;font-weight:800}
+.sector-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sector-card{border:1px solid var(--line);padding:27px 25px 25px;min-height:250px;display:flex;flex-direction:column;transition:border .2s,transform .2s,box-shadow .2s;background:#fff}
+.sector-card:hover{border-color:#ffb79f;transform:translateY(-4px);box-shadow:0 16px 35px #17191c0b}
+.sector-icon{width:48px;height:48px;display:grid;place-items:center;background:#fff1eb;color:var(--orange-dark);margin-bottom:24px}
+.sector-icon svg{width:25px;height:25px}
+.sector-card p{color:var(--muted);font-size:.91rem;margin-bottom:20px}
+.card-link{font-size:.83rem;font-weight:850;color:var(--orange-dark);margin-top:auto;display:inline-flex;gap:8px;align-items:center}
+.solutions{background:var(--soft)}
+.solution-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:65px;align-items:start}
+.solution-intro{position:sticky;top:125px}
+.solution-list{border-top:1px solid #dfe2e4}
+.solution-item{display:grid;grid-template-columns:48px 1fr;gap:18px;padding:25px 0;border-bottom:1px solid #dfe2e4}
+.solution-number{font-size:.84rem;font-weight:900;color:var(--orange-dark);padding-top:2px}
+.solution-item p{font-size:.9rem;color:var(--muted);margin-bottom:0}
+.capability-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px}
+.capability{padding:19px;border:1px solid var(--line);background:#fff}
+.capability strong{display:block;font-size:.92rem;margin-bottom:5px}
+.capability span{font-size:.82rem;color:var(--muted)}
+.feature-band{background:var(--ink);color:#fff;padding:75px 0}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center}
+.feature-band .eyebrow{color:#ff895d}
+.feature-band p{color:#c4c8cb;max-width:580px}
+.feature-points{display:grid;grid-template-columns:1fr 1fr;gap:19px}
+.feature-point{border-top:1px solid #46494c;padding-top:17px}
+.feature-point b{display:block;font-size:1.08rem;margin-bottom:5px}
+.feature-point span{font-size:.84rem;color:#bfc4c7}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:42px}
+.process-step{border-top:2px solid var(--orange);padding-top:20px}
+.process-step .num{font-size:.74rem;color:var(--orange-dark);font-weight:900;letter-spacing:.12em}
+.process-step h3{margin-top:13px}
+.process-step p{font-size:.88rem;color:var(--muted)}
+.faq-section{background:#fafafa}
+.faq-wrap{max-width:850px;margin:auto}
+.faq-list{border-top:1px solid var(--line);margin-top:35px}
+details{border-bottom:1px solid var(--line);padding:0}
+summary{list-style:none;cursor:pointer;position:relative;padding:21px 38px 21px 0;font-weight:800}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";position:absolute;right:4px;top:16px;font-size:1.5rem;color:var(--orange);font-weight:500}
+details[open] summary:after{content:"−"}
+details p{color:var(--muted);font-size:.93rem;max-width:760px;padding:0 30px 19px 0;margin:0}
+.contact-section{padding:100px 0}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start}
+.contact-copy p{color:var(--muted);max-width:470px}
+.contact-note{margin-top:35px;padding:20px;border-left:3px solid var(--orange);background:#fff6f2;font-size:.87rem;color:#555}
+.contact-form{border:1px solid var(--line);padding:29px;background:#fff;box-shadow:0 18px 55px #17191c08}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:.8rem;font-weight:800}
+input,select,textarea{width:100%;border:1px solid #d9dddf;background:#fff;padding:12px 13px;color:var(--ink);border-radius:0}
+input::placeholder,textarea::placeholder{color:#9aa0a5}
+textarea{resize:vertical;min-height:105px}
+.form-foot{font-size:.76rem;color:var(--muted);margin:15px 0}
+.form-result{display:none;margin-top:18px;padding:16px;border:1px solid #b8e2cd;background:#f1fbf5;color:#185b3d;font-size:.88rem}
+.form-result.show{display:block}
+.form-result textarea{margin:10px 0;background:#fff;border-color:#c7e8d5;color:#26382f}
+footer{background:#111315;color:#fff;padding:42px 0 25px}
+.footer-top{display:flex;align-items:flex-start;justify-content:space-between;gap:30px;padding-bottom:32px;border-bottom:1px solid #383b3e}
+footer .brand-word{color:#fff}
+footer .brand-word .core{color:var(--orange)}
+.footer-description{color:#aeb3b7;font-size:.86rem;max-width:350px;margin-top:17px}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:.82rem;color:#d5d8da}
+.footer-links a:hover{color:#ff875c}
+.footer-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px;color:#8e9499;font-size:.75rem}
+.disclaimer{max-width:700px}
+@media(max-width:900px){
+ nav{gap:15px}nav a{font-size:.82rem}.nav-cta{padding:11px 13px}
+ .hero-grid{gap:25px}.hero-visual{min-height:390px}.access-panel{padding:19px}.tag-one{left:0}.tag-two{right:0}
+ .sector-grid{grid-template-columns:repeat(2,1fr)}.solution-grid,.feature-grid,.contact-grid{gap:35px}
+ .process-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+ .container{width:min(var(--max),calc(100% - 32px))}
+ header{height:74px}.brand svg{width:36px;height:41px}.brand-word{font-size:1.1rem}
+ .menu-btn{display:block}
+ nav{display:none;position:absolute;left:0;right:0;top:73px;background:#fff;border-bottom:1px solid var(--line);padding:18px 22px 22px;align-items:stretch;flex-direction:column;gap:0;box-shadow:0 20px 30px #17191c10}
+ nav.open{display:flex}nav a{padding:13px 0;border-bottom:1px solid #f0f1f2;font-size:.95rem}nav .nav-cta{margin-top:15px}
+ .hero{padding:60px 0 55px}.hero-grid{grid-template-columns:1fr;gap:20px}.hero h1{font-size:clamp(2.75rem,13vw,4.5rem)}
+ .hero-visual{min-height:385px;margin:0 3px}.visual-orbit{width:300px;height:300px}.access-panel{width:min(100%,390px)}
+ .tag-one{top:22px;left:-2px}.tag-two{bottom:20px;right:-2px}
+ .section{padding:72px 0}.sector-grid{grid-template-columns:1fr}.sector-card{min-height:0;padding:23px}.sector-icon{margin-bottom:17px}
+ .sector-strip-inner{justify-content:flex-start;gap:10px 18px}.sector-strip span{width:100%}
+ .solution-grid,.feature-grid,.contact-grid{grid-template-columns:1fr}.solution-intro{position:static}.capability-grid{grid-template-columns:1fr 1fr}
+ .feature-band{padding:60px 0}.process-grid{gap:25px 18px}
+ .contact-form{padding:20px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+ .footer-top{flex-direction:column}.footer-links{gap:16px}
+}
+@media(max-width:400px){.capability-grid,.feature-points,.process-grid{grid-template-columns:1fr}.hero-visual{min-height:360px}.float-tag{font-size:.7rem;padding:10px}.tag-one{left:-5px}.tag-two{right:-5px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<header>
+  <div class="container nav-wrap">
+    <a class="brand" href="#inicio" aria-label="Access Core, inicio">
+      <svg viewBox="0 0 100 112" role="img" aria-label="Símbolo geométrico Access Core">
+        <g fill="none" stroke="#ff4b08" stroke-width="7.5" stroke-linejoin="miter" stroke-linecap="square">
+          <path d="M50 4 L94 29 L94 81 L50 107 L6 81 L6 29 Z"/>
+          <path d="M6 29 L50 55 L94 29 M50 55 L50 107"/>
+          <path d="M50 55 L72 42"/>
+        </g>
+        <circle cx="77" cy="39" r="9.5" fill="#ff4b08"/>
+      </svg>
+      <span class="brand-word"><span>ACCESS</span><span class="core">CORE</span></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">MENÚ ☰</button>
+    <nav id="mainNav" aria-label="Navegación principal">
+      <a href="#sectores">Sectores</a>
+      <a href="#soluciones">Soluciones</a>
+      <a href="#metodo">Cómo trabajamos</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="nav-cta" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Software · Hardware · Integración</span>
+      <h1>El acceso correcto.<br><span class="orange">En el momento correcto.</span></h1>
+      <p class="lead">Creamos soluciones para gestionar el ingreso de personas y vehículos, organizar espacios de atención y automatizar procesos de acceso en organizaciones de distintos sectores.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#contacto">Cuéntanos tu proyecto <span aria-hidden="true">→</span></a>
+        <a class="btn secondary" href="#sectores">Explorar soluciones</a>
+      </div>
+      <div class="trust-line"><span class="dot"></span><span>Soluciones configuradas según la operación de cada organización.</span></div>
+    </div>
+    <div class="hero-visual" aria-label="Vista ilustrativa de un panel de control de acceso">
+      <div class="visual-orbit"></div>
+      <div class="float-tag tag-one">Control en tiempo real<small>Personas · vehículos · espacios</small></div>
+      <div class="access-panel">
+        <div class="panel-top"><span class="panel-label">ACCESS CORE / CONTROL</span><span class="live">PANEL DEMO</span></div>
+        <div class="panel-title">Resumen de accesos</div>
+        <div class="panel-sub">Vista conceptual de una operación centralizada</div>
+        <div class="access-row">
+          <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 14l2-5h14l2 5v5H3z"/><path d="M6 9l2-4h8l2 4M6 16h.01M18 16h.01"/></svg></div>
+          <div><div class="row-main">Acceso vehicular</div><div class="row-sub">Registro de entrada y salida</div></div>
+          <span class="status">REGISTRO</span>
+        </div>
+        <div class="access-row">
+          <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></div>
+          <div><div class="row-main">Personas y visitantes</div><div class="row-sub">Identificación y permisos</div></div>
+          <span class="status orange">VALIDACIÓN</span>
+        </div>
+        <div class="access-row">
+          <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></div>
+          <div><div class="row-main">Boxes y puntos de atención</div><div class="row-sub">Asignación y disponibilidad</div></div>
+          <span class="status">GESTIÓN</span>
+        </div>
+        <div class="access-row">
+          <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V7l8-4 8 4v13M9 20v-6h6v6M8 9h.01M16 9h.01"/></svg></div>
+          <div><div class="row-main">Áreas restringidas</div><div class="row-sub">Reglas de acceso configurables</div></div>
+          <span class="status">PERMISOS</span>
+        </div>
+      </div>
+      <div class="float-tag tag-two">Una lógica flexible<small>Adaptada al flujo de cada operación</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="sector-strip">
+  <div class="container sector-strip-inner">
+    <span>Diseñado para distintas operaciones</span>
+    <strong>Residencial</strong><strong>Comercial</strong><strong>Corporativo</strong><strong>Financiero</strong><strong>Salud</strong>
+  </div>
+</div>
+
+<section class="section" id="sectores">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Sectores que atendemos</span>
+      <h2>Una solución para cada tipo de acceso.</h2>
+      <p>Identificamos cómo funciona hoy tu operación y diseñamos una propuesta que responda a sus reglas, sus usuarios y sus espacios.</p>
+    </div>
+    <div class="sector-grid">
+      <article class="sector-card">
+        <div class="sector-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 14l2-5h14l2 5v5H3z"/><path d="M6 9l2-4h8l2 4M6 16h.01M18 16h.01"/></svg></div>
+        <h3>Parqueaderos</h3><p>Control de entradas y salidas, registro de vehículos, validación de permisos y apoyo a la operación de parqueaderos pequeños y medianos.</p>
+        <a class="card-link" href="#contacto" data-interest="Parqueaderos">Explorar esta solución <span>→</span></a>
+      </article>
+      <article class="sector-card">
+        <div class="sector-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V7l9-4 9 4v14M8 21v-6h8v6M7 10h2M15 10h2"/></svg></div>
+        <h3>Conjuntos residenciales</h3><p>Gestión de residentes, visitantes, proveedores y personal, con reglas de acceso definidas por la administración.</p>
+        <a class="card-link" href="#contacto" data-interest="Conjuntos residenciales">Explorar esta solución <span>→</span></a>
+      </article>
+      <article class="sector-card">
+        <div class="sector-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V5h18v16M7 9h3M14 9h3M7 13h3M14 13h3M10 21v-4h4v4"/></svg></div>
+        <h3>Centros comerciales</h3><p>Control de accesos a zonas operativas, áreas de servicio, estacionamientos y espacios con permisos diferenciados.</p>
+        <a class="card-link" href="#contacto" data-interest="Centros comerciales">Explorar esta solución <span>→</span></a>
+      </article>
+      <article class="sector-card">
+        <div class="sector-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2M18 4l2 2-2 2"/></svg></div>
+        <h3>Empresas y empleados</h3><p>Administración de credenciales, horarios, perfiles de usuario y permisos de ingreso a instalaciones o áreas específicas.</p>
+        <a class="card-link" href="#contacto" data-interest="Empresas y empleados">Explorar esta solución <span>→</span></a>
+      </article>
+      <article class="sector-card">
+        <div class="sector-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16"/><path d="M8 8h8M8 12h8M8 16h4M12 2v2"/></svg></div>
+        <h3>Bancos y servicios financieros</h3><p>Asignación de boxes o puestos de atención, control de disponibilidad y organización de flujos internos de trabajo.</p>
+        <a class="card-link" href="#contacto" data-interest="Bancos y boxes de atención">Explorar esta solución <span>→</span></a>
+      </article>
+      <article class="sector-card">
+        <div class="sector-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg></div>
+        <h3>Clínicas y centros de salud</h3><p>Gestión de boxes, consultorios o puntos de atención, según disponibilidad, perfiles autorizados y necesidades del servicio.</p>
+        <a class="card-link" href="#contacto" data-interest="Salud y puntos de atención">Explorar esta solución <span>→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section solutions" id="soluciones">
+  <div class="container solution-grid">
+    <div class="solution-intro">
+      <span class="eyebrow">Qué podemos resolver</span>
+      <h2>Del ingreso al registro. Del registro a la gestión.</h2>
+      <p class="lead">Access Core se plantea como una capa tecnológica que conecta las reglas de acceso con la operación diaria.</p>
+      <a class="btn" href="#contacto">Hablemos de tu operación <span>→</span></a>
+    </div>
+    <div>
+      <div class="solution-list">
+        <div class="solution-item"><div class="solution-number">01 /</div><div><h3>Identificación y autorización</h3><p>Definición de quién puede ingresar, a qué lugar, en qué horario y bajo qué condiciones. La tecnología de identificación dependerá del proyecto.</p></div></div>
+        <div class="solution-item"><div class="solution-number">02 /</div><div><h3>Registro y trazabilidad</h3><p>Registro de eventos y consulta de movimientos para facilitar el seguimiento de la operación y la revisión de incidencias.</p></div></div>
+        <div class="solution-item"><div class="solution-number">03 /</div><div><h3>Asignación de espacios y recursos</h3><p>Organización de boxes, puestos, áreas o puntos de servicio, con criterios de disponibilidad y asignación definidos con el cliente.</p></div></div>
+        <div class="solution-item"><div class="solution-number">04 /</div><div><h3>Integración de software y hardware</h3><p>Evaluación de lectores, barreras, sensores, terminales y sistemas existentes para definir una arquitectura viable.</p></div></div>
+        <div class="solution-item"><div class="solution-number">05 /</div><div><h3>Paneles y reportes operativos</h3><p>Información organizada para supervisar actividad, consultar registros y apoyar decisiones de administración.</p></div></div>
+      </div>
+      <div class="capability-grid">
+        <div class="capability"><strong>Reglas configurables</strong><span>Permisos según perfiles y operación.</span></div>
+        <div class="capability"><strong>Hardware adecuado</strong><span>Selección según el entorno real.</span></div>
+        <div class="capability"><strong>Diseño modular</strong><span>Alcance definido por etapas.</span></div>
+        <div class="capability"><strong>Visibilidad operativa</strong><span>Registros claros y consultables.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-band">
+  <div class="container feature-grid">
+    <div><span class="eyebrow">Una arquitectura adaptable</span><h2>La operación primero. La tecnología, a su servicio.</h2><p>Cada instalación tiene restricciones, equipos y hábitos diferentes. Antes de proponer dispositivos o desarrollar funcionalidades, entendemos el flujo de personas, vehículos y recursos que se necesita controlar.</p></div>
+    <div class="feature-points">
+      <div class="feature-point"><b>Software</b><span>Reglas, usuarios, registros e interfaces.</span></div>
+      <div class="feature-point"><b>Hardware</b><span>Dispositivos seleccionados según el caso.</span></div>
+      <div class="feature-point"><b>Integración</b><span>Comunicación entre componentes compatibles.</span></div>
+      <div class="feature-point"><b>Implementación</b><span>Alcance, pruebas y puesta en marcha por etapas.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="metodo">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <h2>Un proceso claro, desde el primer diagnóstico.</h2>
+      <p>La propuesta técnica y comercial se construye a partir del problema real, no de una lista de equipos predeterminada.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-step"><span class="num">PASO 01</span><h3>Entender</h3><p>Revisamos el flujo actual, los usuarios, los puntos de acceso y las dificultades de la operación.</p></div>
+      <div class="process-step"><span class="num">PASO 02</span><h3>Diseñar</h3><p>Definimos el alcance funcional, los componentes necesarios y las posibles integraciones.</p></div>
+      <div class="process-step"><span class="num">PASO 03</span><h3>Validar</h3><p>Acordamos criterios de funcionamiento, pruebas, responsabilidades y condiciones de implementación.</p></div>
+      <div class="process-step"><span class="num">PASO 04</span><h3>Implementar</h3><p>Desarrollamos o configuramos la solución dentro del alcance acordado y verificamos su operación.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section faq-section" id="preguntas">
+  <div class="container faq-wrap">
+    <div class="section-head">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Lo esencial, antes de empezar.</h2>
+    </div>
+    <div class="faq-list">
+      <details><summary>¿Access Core ofrece software, hardware o ambos?</summary><p>La propuesta contempla soluciones que pueden combinar software, hardware e integración. Los componentes concretos se definen después de evaluar el proyecto y confirmar compatibilidades.</p></details>
+      <details><summary>¿Pueden trabajar con equipos que ya tenemos?</summary><p>Es posible evaluar equipos existentes. La reutilización depende del fabricante, el modelo, los protocolos disponibles, el estado del dispositivo y los requisitos de seguridad.</p></details>
+      <details><summary>¿La solución sirve para una operación pequeña?</summary><p>El enfoque inicial contempla proyectos de alcance acotado, como parqueaderos pequeños, accesos de oficinas o asignación de puestos. La viabilidad se revisa caso por caso.</p></details>
+      <details><summary>¿Se puede desarrollar una solución a la medida?</summary><p>Podemos analizar requerimientos particulares y definir qué conviene configurar, integrar o desarrollar. Las funcionalidades y los tiempos se confirman en una propuesta técnica.</p></details>
+      <details><summary>¿Cómo se cotiza un proyecto?</summary><p>Necesitamos conocer el número de accesos o espacios, el volumen de usuarios, los equipos disponibles, las reglas de operación y los reportes requeridos. Con esa información se puede estimar el alcance.</p></details>
+      <details><summary>¿Cómo se manejan los datos personales?</summary><p>El diseño debe contemplar los datos estrictamente necesarios, los permisos de consulta, la seguridad de la información y las obligaciones aplicables de protección de datos. El tratamiento concreto debe quedar definido para cada implementación.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contacto">
+  <div class="container contact-grid">
+    <div class="contact-copy">
+      <span class="eyebrow">Hablemos de tu proyecto</span>
+      <h2>Cuéntanos qué necesitas controlar.</h2>
+      <p>Describe brevemente tu operación. Con esa información podremos identificar las preguntas técnicas que vale la pena resolver primero.</p>
+      <div class="contact-note"><strong>Para una primera conversación, basta con tres datos:</strong><br>qué tipo de acceso necesitas gestionar, cuántos puntos o espacios hay y qué problema quieres resolver.</div>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-grid">
+        <div class="field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre" required></div>
+        <div class="field"><label for="organizacion">Empresa u organización</label><input id="organizacion" name="organizacion" autocomplete="organization" placeholder="Nombre de la organización"></div>
+        <div class="field"><label for="correo">Correo electrónico</label><input id="correo" name="correo" type="email" autocomplete="email" placeholder="nombre@empresa.com" required></div>
+        <div class="field"><label for="sector">Tipo de operación</label><select id="sector" name="sector" required><option value="">Selecciona una opción</option><option>Parqueaderos</option><option>Conjuntos residenciales</option><option>Centros comerciales</option><option>Empresas y empleados</option><option>Bancos y boxes de atención</option><option>Clínicas y centros de salud</option><option>Otro proyecto</option></select></div>
+        <div class="field full"><label for="detalle">¿Qué necesitas resolver?</label><textarea id="detalle" name="detalle" placeholder="Cuéntanos sobre los accesos, espacios, equipos existentes o dificultades actuales." required></textarea></div>
+      </div>
+      <p class="form-foot">Este prototipo funciona sin servidor: al enviar, prepara el mensaje para copiarlo y compartirlo. Antes de publicar el sitio, configura el correo o canal comercial definitivo.</p>
+      <button class="btn" type="submit">Preparar solicitud <span aria-hidden="true">→</span></button>
+      <div class="form-result" id="formResult" role="status" aria-live="polite">
+        <strong>Tu solicitud está preparada.</strong>
+        <p>Revisa el texto y cópialo para enviarlo por el canal comercial de Access Core.</p>
+        <textarea id="requestText" rows="8" readonly aria-label="Texto preparado de la solicitud"></textarea>
+        <button class="btn secondary" type="button" id="copyRequest">Copiar solicitud</button>
+        <span id="copyStatus" aria-live="polite"></span>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="#inicio" aria-label="Access Core, volver al inicio">
+          <svg viewBox="0 0 100 112" role="img" aria-label="Símbolo Access Core">
+            <g fill="none" stroke="#ff4b08" stroke-width="7.5" stroke-linejoin="miter" stroke-linecap="square"><path d="M50 4 L94 29 L94 81 L50 107 L6 81 L6 29 Z"/><path d="M6 29 L50 55 L94 29 M50 55 L50 107 M50 55 L72 42"/></g><circle cx="77" cy="39" r="9.5" fill="#ff4b08"/>
+          </svg>
+          <span class="brand-word"><span>ACCESS</span><span class="core">CORE</span></span>
+        </a>
+        <p class="footer-description">Tecnología para gestionar accesos, personas, vehículos y espacios con reglas claras y soluciones adaptables.</p>
+      </div>
+      <div class="footer-links"><a href="#sectores">Sectores</a><a href="#soluciones">Soluciones</a><a href="#metodo">Metodología</a><a href="#contacto">Contacto</a></div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="year"></span> Access Core. Todos los derechos reservados.</span><span class="disclaimer">Sitio conceptual. Las capacidades, integraciones, productos y servicios finales deberán confirmarse según el alcance real de la empresa.</span></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const menuBtn = document.getElementById('menuBtn');
+  const nav = document.getElementById('mainNav');
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.textContent = open ? 'CERRAR ×' : 'MENÚ ☰';
+  });
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    nav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = 'MENÚ ☰';
+  }));
+  document.querySelectorAll('[data-interest]').forEach(link => {
+    link.addEventListener('click', () => {
+      const sector = document.getElementById('sector');
+      const wanted = link.dataset.interest;
+      const option = Array.from(sector.options).find(o => o.text.toLowerCase().includes(wanted.toLowerCase().split(' ')[0]));
+      if (option) sector.value = option.value;
+    });
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const form = document.getElementById('contactForm');
+  const result = document.getElementById('formResult');
+  const requestText = document.getElementById('requestText');
+  const copyStatus = document.getElementById('copyStatus');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    const message = [
+      'SOLICITUD DE INFORMACIÓN — ACCESS CORE',
+      '',
+      'Nombre: ' + data.get('nombre'),
+      'Organización: ' + (data.get('organizacion') || 'No indicada'),
+      'Correo: ' + data.get('correo'),
+      'Tipo de operación: ' + data.get('sector'),
+      '',
+      'Necesidad:',
+      data.get('detalle')
+    ].join('\n');
+    requestText.value = message;
+    result.classList.add('show');
+    copyStatus.textContent = '';
+    result.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'});
+  });
+
+  document.getElementById('copyRequest').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(requestText.value);
+      copyStatus.textContent = ' Solicitud copiada.';
+    } catch (e) {
+      requestText.focus();
+      requestText.select();
+      const copied = document.execCommand('copy');
+      copyStatus.textContent = copied ? ' Solicitud copiada.' : ' Selecciona y copia el texto manualmente.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
